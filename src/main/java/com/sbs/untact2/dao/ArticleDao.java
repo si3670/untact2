@@ -18,7 +18,9 @@ public interface ArticleDao {
 	public void deleteArticle(@Param(value = "id")int id);
 	public void modifyArticle(@Param(value = "id")int id, @Param(value = "title")String title, @Param(value = "body")String body);
 	public Article getForPrintArticle(@Param(value = "id")int id);
-	public List<Article> getForPrintArticles(@Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword,  @Param("limitStart") int limitStart,
-			@Param("limitTake") int limitTake, @Param("boardId") int boardId);
+	public List<Article> getForPrintArticles(@Param("boardId") int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword,  @Param("limitStart") int limitStart,
+			@Param("limitTake") int limitTake);
 	public Board getBoard(@Param(value = "id")int id);
+	public void doAddReply(Map<String, Object> param);
+	public void doModifyReply(@Param(value = "id")int id, @Param(value = "articleId")int articleId, @Param(value = "body")String body);
 }

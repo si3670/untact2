@@ -57,7 +57,7 @@ public class UsrArticleController {
 		}
 		
 		int itemsInAPage = 10;
-		List<Article> articles = articleService.getForPrintArticles(searchKeyword, searchKeywordType, page, itemsInAPage, boardId);
+		List<Article> articles = articleService.getForPrintArticles(boardId, searchKeyword, searchKeywordType, page, itemsInAPage);
 		return new ResultData("P-1", "성공", "articles", articles);
 	}
 
@@ -112,7 +112,44 @@ public class UsrArticleController {
 		
 		return articleService.modifyArticle(id, title, body);
 	}
+	
+	@RequestMapping("/usr/article/doAddReply")
+	@ResponseBody
+	public ResultData doAddReply(@RequestParam Map<String, Object> param, HttpSession session) {
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
 
+		if(param.get("body") == null) {
+			return new ResultData("F-1", "body을 입력해주세요.");
+		}
+		if(param.get("articleId") == null) {
+			return new ResultData("F-1", "articleId를 입력해주세요.");
+		}
+		
+		param.put("memberId", loginedMemberId);
+		
+		return articleService.doAddReply(param);
+	}
+	
+	
+	
+	
+	@RequestMapping("/usr/article/doModifyReply")
+	@ResponseBody
+	public ResultData doModifyReply(int id, int articleId, String body, HttpSession session) {
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+
+		Article article = articleService.getArticle(id);
+		if(article == null) {
+			return new ResultData("F-1", "해당 게시물이 존재하지 않습니다.");
+		}
+		ResultData actorCanModifyReplyRd = articleService.getActorCanModifyReplyRd(article, loginedMemberId);
+		if(actorCanModifyReplyRd.isFail()) {
+			return actorCanModifyReplyRd;
+		}
+		
+		return articleService.doModifyReply(id, articleId, body);
+	}
+	
 
 
 }

@@ -110,4 +110,24 @@
 		#{id}
 	</select>
 
+	<!-- public void doAddReply(Map<String, Object> param); -->
+	<insert id="doAddReply" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO reply
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		articleId =
+		#{articleId},
+		memberId = #{memberId},
+		`body` = #{body}
+	</insert>
+
+	<!-- public void doModifyReply -->
+	<update id="doModifyReply">
+		UPDATE reply
+		SET updateDate = NOW(),
+		articleId = #{articleId},
+		`body` = #{body}
+	</update>
+
+
 </mapper>
