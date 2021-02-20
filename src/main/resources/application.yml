@@ -5,8 +5,8 @@ spring:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 #    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:log4jdbc:mysql://127.0.0.1:3309/untact2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull
-    username: sen
-    password: 1234
+    username: sbsst
+    password: sbs123414
 mybatis:
   type-aliases-package: com.sbs.untact2.dto
 custom:

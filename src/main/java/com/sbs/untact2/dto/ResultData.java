@@ -18,7 +18,7 @@ public class ResultData {
 		this.body = Util.mapOf(args);
 	}
 	public boolean isSuccess() {
-		return resultCode.startsWith("S-");
+		return resultCode.startsWith("P-");
 	}
 	public boolean isFail() {
 		return resultCode.startsWith("F-");

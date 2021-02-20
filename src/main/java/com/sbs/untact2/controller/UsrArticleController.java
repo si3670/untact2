@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untact2.dto.Article;
+import com.sbs.untact2.dto.Board;
 import com.sbs.untact2.dto.ResultData;
 import com.sbs.untact2.service.ArticleService;
 import com.sbs.untact2.util.Util;
@@ -36,7 +37,12 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public ResultData showlist(String searchKeyword, String searchKeywordType) {
+	public ResultData showlist(@RequestParam(defaultValue = "1") int boardId, String searchKeyword, String searchKeywordType, @RequestParam(defaultValue = "1") int page) {
+		Board board = articleService.getBoard(boardId);
+		if ( board == null ) {
+			return new ResultData("F-1", "존재하지 않는 게시판 입니다.");
+		}
+		
 		if(searchKeywordType == null || searchKeywordType.length() == 0) {
 			searchKeywordType = "titleAndbody";
 		}
@@ -50,7 +56,8 @@ public class UsrArticleController {
 			searchKeyword = searchKeyword.trim();
 		}
 		
-		List<Article> articles = articleService.getForPrintArticles(searchKeyword, searchKeywordType);
+		int itemsInAPage = 10;
+		List<Article> articles = articleService.getForPrintArticles(searchKeyword, searchKeywordType, page, itemsInAPage, boardId);
 		return new ResultData("P-1", "성공", "articles", articles);
 	}
 

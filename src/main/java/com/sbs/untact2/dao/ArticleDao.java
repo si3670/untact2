@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.untact2.dto.Article;
+import com.sbs.untact2.dto.Board;
 //데이터 저장 수정 삭제 등
 @Mapper
 public interface ArticleDao {
@@ -17,5 +18,7 @@ public interface ArticleDao {
 	public void deleteArticle(@Param(value = "id")int id);
 	public void modifyArticle(@Param(value = "id")int id, @Param(value = "title")String title, @Param(value = "body")String body);
 	public Article getForPrintArticle(@Param(value = "id")int id);
-	public List<Article> getForPrintArticles(@Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
+	public List<Article> getForPrintArticles(@Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword,  @Param("limitStart") int limitStart,
+			@Param("limitTake") int limitTake, @Param("boardId") int boardId);
+	public Board getBoard(@Param(value = "id")int id);
 }
