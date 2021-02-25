@@ -22,5 +22,4 @@ public interface ArticleDao {
 			@Param("limitTake") int limitTake);
 	public Board getBoard(@Param(value = "id")int id);
 	public void doAddReply(Map<String, Object> param);
-	public void doModifyReply(@Param(value = "id")int id, @Param(value = "articleId")int articleId, @Param(value = "body")String body);
 }

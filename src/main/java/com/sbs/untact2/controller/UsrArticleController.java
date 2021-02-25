@@ -129,27 +129,6 @@ public class UsrArticleController {
 		
 		return articleService.doAddReply(param);
 	}
-	
-	
-	
-	
-	@RequestMapping("/usr/article/doModifyReply")
-	@ResponseBody
-	public ResultData doModifyReply(int id, int articleId, String body, HttpSession session) {
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
-
-		Article article = articleService.getArticle(id);
-		if(article == null) {
-			return new ResultData("F-1", "해당 게시물이 존재하지 않습니다.");
-		}
-		ResultData actorCanModifyReplyRd = articleService.getActorCanModifyReplyRd(article, loginedMemberId);
-		if(actorCanModifyReplyRd.isFail()) {
-			return actorCanModifyReplyRd;
-		}
-		
-		return articleService.doModifyReply(id, articleId, body);
-	}
-	
 
 
 }

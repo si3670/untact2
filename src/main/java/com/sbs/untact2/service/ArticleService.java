@@ -91,11 +91,5 @@ public class ArticleService {
 		return new ResultData("F-1", "권한이 없습니다.");
 	}
 
-	public ResultData doModifyReply(int id, int articleId, String body) {
-		articleDao.doModifyReply(id, articleId, body);
-
-		return new ResultData("P-1", "성공", "id", id);
-	}
-
 
 }

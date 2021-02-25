@@ -9,7 +9,7 @@
 	<insert id="addMember" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO member
 		SET regDate = NOW(),
-		updategDate = NOW(),
+		updateDate = NOW(),
 		loginId = #{loginId},
 		loginPw =
 		#{loginPw},
@@ -17,7 +17,8 @@
 		nickname = #{nickname},
 		cellphoneNo =
 		#{cellphoneNo},
-		email = #{email}
+		email = #{email},
+		authKey = CONCAT("authKey__", UUID(), "__", RAND())
 	</insert>
 
 	<!-- public Member getMemberByLoginId(@Param(value = "loginId")String loginId); -->
@@ -31,6 +32,12 @@
 		SELECT *
 		FROM `member`
 		WHERE loginId = #{id}
+	</select>
+	
+	<select id="getMemberByAuthKey" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE authKey = #{authKey}
 	</select>
 
 

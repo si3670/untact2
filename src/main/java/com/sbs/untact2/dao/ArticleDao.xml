@@ -38,6 +38,7 @@
 		title =
 		#{title},
 		`body` = #{body},
+		boardId = #{boardId},
 		memberId = #{memberId}
 	</insert>
 
@@ -120,14 +121,5 @@
 		memberId = #{memberId},
 		`body` = #{body}
 	</insert>
-
-	<!-- public void doModifyReply -->
-	<update id="doModifyReply">
-		UPDATE reply
-		SET updateDate = NOW(),
-		articleId = #{articleId},
-		`body` = #{body}
-	</update>
-
 
 </mapper>

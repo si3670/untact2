@@ -19,5 +19,7 @@ public interface MemberDao {
 
 	public Member getMember(@Param(value = "id")int id);
 
+	public Member getMemberByAuthKey(@Param("authKey")String authKey);
+
 
 }
