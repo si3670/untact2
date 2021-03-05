@@ -25,3 +25,24 @@ html, html > body{
 min-h-screen{
 	height: 100%;
 }
+.logo {
+  font-size:2rem;
+  display:inline-flex;
+}
+
+.logo > span:last-child {
+  font-style:italic;
+  margin-left:0.5rem;
+  font-weight:bold;
+}
+.form-row + .form-row {
+	margin-top:10px;
+}
+
+.form-row-input {
+	padding: 15px;
+}
+
+textarea.form-row-input {
+	min-height:100px;
+} 

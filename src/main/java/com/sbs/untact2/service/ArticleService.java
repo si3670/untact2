@@ -18,6 +18,8 @@ public class ArticleService {
 	private ArticleDao articleDao;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private GenFileService genFileService;
 
 	public Article getArticle(int id) {
 		return articleDao.getArticle(id);
@@ -31,7 +33,9 @@ public class ArticleService {
 
 	public ResultData deleteArticle(int id) {
 		articleDao.deleteArticle(id);
-
+		
+		genFileService.deleteFiles("article", id);
+		
 		return new ResultData("P-1", "삭제 성공", "id", id);
 	}
 

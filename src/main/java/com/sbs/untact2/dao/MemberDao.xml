@@ -31,7 +31,7 @@
 	<select id="getMember" resultType="Member">
 		SELECT *
 		FROM `member`
-		WHERE loginId = #{id}
+		WHERE id = #{id}
 	</select>
 	
 	<select id="getMemberByAuthKey" resultType="Member">
@@ -44,11 +44,8 @@
 	<update id="modifyMember">
 		UPDATE member
 		<set>
-			<if test="loginId != null || loginPw != null || name != null || nickname != null || cellphoneNo != null || email != null">
+			<if test="loginPw != null || name != null || nickname != null || cellphoneNo != null || email != null">
 				updateDate = NOW(),
-			</if>
-			<if test="loginId != null">
-				loginId = #{loginId},
 			</if>
 			<if test="loginPw != null">
 				loginPw = #{loginPw}

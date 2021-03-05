@@ -1,0 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<header class="top-bar h-20 bg-white">
+	<div class="container mx-auto h-full flex">
+		<a href="/adm/home/main" class="logo flex items-center ml-3">
+			<span>
+				<i class="fas fa-people-arrows"></i>
+			</span>
+			<span>UNTACT Admin</span>
+		</a>
+
+		<div class="flex-grow"></div>
+
+		<nav class="menu-box-1">
+			<ul class="flex h-full">
+				<li>
+					<a href="/adm/home/main" class="px-4 h-full flex items-center hover:underline">
+						<span>홈</span>
+					</a>
+				</li>
+				<li>
+					<a href="/adm/article/list?boardId=1" class="px-4 h-full flex items-center hover:underline">
+						<span>게시판</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="px-4 h-full flex items-center hover:underline">
+						<span>게시물</span>
+					</a>
+				</li>
+				<li>
+					<a href="/adm/member/doLogout" class="px-4 h-full flex items-center hover:underline">
+						<span>관리자 로그아웃</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+
+	</div>
+
+</header>
+<%@ include file="head.jspf"%>

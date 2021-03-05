@@ -3,6 +3,7 @@ package com.sbs.untact2.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
 	public ResultData showlist(@RequestParam(defaultValue = "1") int boardId, String searchKeyword, String searchKeywordType, @RequestParam(defaultValue = "1") int page) {
-		Board board = articleService.getBoard(boardId);
+		Board board = articleService.getBoard(boardId);		
 		if ( board == null ) {
 			return new ResultData("F-1", "존재하지 않는 게시판 입니다.");
 		}

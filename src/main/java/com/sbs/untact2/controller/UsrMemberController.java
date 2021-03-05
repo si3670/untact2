@@ -125,6 +125,6 @@ public class UsrMemberController {
 			return new ResultData("F-1", "유효하지 않는 authKey 입니다.");
 		}
 		
-		return new ResultData("P-1", String.format("유요한 회원입니다."), "member : ", originMember);
+		return new ResultData("P-1", String.format("유효한 회원입니다."), "member : ", originMember);
 	}
 }

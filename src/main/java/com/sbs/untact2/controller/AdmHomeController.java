@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AdmHomeController {
 	@RequestMapping("/adm/home/main")
-	@ResponseBody
 	public String showMain() {
-		return "untact-2";
+		return "adm/home/main";
 	}
 }
