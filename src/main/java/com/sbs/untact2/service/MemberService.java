@@ -1,5 +1,6 @@
 package com.sbs.untact2.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,13 @@ public class MemberService {
 		return memberDao.getMemberByAuthKey(authKey);
 		
 	}
+
+
+	public List<Member> getForPrintMembers(String loginId) {
+		return memberDao.getForPrintMembers(loginId);
+	}
+
+
 
 
 

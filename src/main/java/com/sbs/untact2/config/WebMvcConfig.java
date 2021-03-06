@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 	@Value("${custom.genFileDirPath}")
 	private String genFileDirPath;
-	
+
 	// CORS 허용
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -45,10 +45,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// beforeActionInterceptor 인터셉터가 모든 액션 실행전에 실행되도록 처리
-		registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("/resource/**").excludePathPatterns("/gen/**");
+		registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("/resource/**")
+				.excludePathPatterns("/gen/**");
 
 		// 어드민 필요
-		registry.addInterceptor(needAdmInterceptor).addPathPatterns("/adm/**").excludePathPatterns("/adm/member/login")
+		registry.addInterceptor(needAdmInterceptor).addPathPatterns("/adm/**").excludePathPatterns("/adm/member/join")
+				.excludePathPatterns("/adm/member/doJoin").excludePathPatterns("/adm/member/login")
 				.excludePathPatterns("/adm/member/doLogin");
 
 		// 로그인 필요
@@ -68,9 +70,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/usr/adm/doLogin").addPathPatterns("/usr/member/login")
 				.addPathPatterns("/usr/member/doLogin").addPathPatterns("/usr/member/join")
 				.addPathPatterns("/usr/member/doJoin");
-		
-		
+
 	}
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/gen/**").addResourceLocations("file:///" + genFileDirPath + "/")

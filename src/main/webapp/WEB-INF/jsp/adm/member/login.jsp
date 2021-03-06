@@ -66,10 +66,13 @@
 							name="loginPw" maxlength="20" />
 					</div>
 				</div>
-				<div class="flex items-center justify-between">
+				<div class="flex items-center">
 					<button
 						class="bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
 						type="sumit">로그인</button>
+					<a href="/adm/member/join"
+						class="ml-2 bg-green-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
+						type="sumit">회원가입</a>
 				</div>
 			</form>
 		</div>

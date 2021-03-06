@@ -10,7 +10,8 @@
 		INSERT INTO member
 		SET regDate = NOW(),
 		updateDate = NOW(),
-		loginId = #{loginId},
+		loginId =
+		#{loginId},
 		loginPw =
 		#{loginPw},
 		name = #{name},
@@ -18,8 +19,18 @@
 		cellphoneNo =
 		#{cellphoneNo},
 		email = #{email},
-		authKey = CONCAT("authKey__", UUID(), "__", RAND())
+		authKey =
+		CONCAT("authKey__", UUID(), "__", RAND())
 	</insert>
+
+
+	<select id="getForPrintMembers" resultType="Member">
+		SELECT *
+		FROM member
+		WHERE 1
+		AND loginId = #{loginId}
+		ORDER BY id DESC
+	</select>
 
 	<!-- public Member getMemberByLoginId(@Param(value = "loginId")String loginId); -->
 	<select id="getMemberByLoginId" resultType="Member">
@@ -27,13 +38,14 @@
 		FROM `member`
 		WHERE loginId = #{loginId}
 	</select>
-	
+
 	<select id="getMember" resultType="Member">
 		SELECT *
 		FROM `member`
-		WHERE id = #{id}
+		WHERE id
+		= #{id}
 	</select>
-	
+
 	<select id="getMemberByAuthKey" resultType="Member">
 		SELECT *
 		FROM `member`
@@ -44,7 +56,8 @@
 	<update id="modifyMember">
 		UPDATE member
 		<set>
-			<if test="loginPw != null || name != null || nickname != null || cellphoneNo != null || email != null">
+			<if
+				test="loginPw != null || name != null || nickname != null || cellphoneNo != null || email != null">
 				updateDate = NOW(),
 			</if>
 			<if test="loginPw != null">

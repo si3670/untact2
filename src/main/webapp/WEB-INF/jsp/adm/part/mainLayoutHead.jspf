@@ -15,12 +15,14 @@
 		<nav class="menu-box-1">
 			<ul class="flex h-full">
 				<li>
-					<a href="/adm/home/main" class="px-4 h-full flex items-center hover:underline">
+					<a href="/adm/home/main"
+						class="px-4 h-full flex items-center hover:underline">
 						<span>홈</span>
 					</a>
 				</li>
 				<li>
-					<a href="/adm/article/list?boardId=1" class="px-4 h-full flex items-center hover:underline">
+					<a href="/adm/article/list?boardId=1"
+						class="px-4 h-full flex items-center hover:underline">
 						<span>게시판</span>
 					</a>
 				</li>
@@ -30,7 +32,14 @@
 					</a>
 				</li>
 				<li>
-					<a href="/adm/member/doLogout" class="px-4 h-full flex items-center hover:underline">
+					<a href="/adm/member/list"
+						class="px-4 h-full flex items-center hover:underline">
+						<span>회원 리스트</span>
+					</a>
+				</li>
+				<li>
+					<a href="/adm/member/doLogout"
+						class="px-4 h-full flex items-center hover:underline">
 						<span>관리자 로그아웃</span>
 					</a>
 				</li>

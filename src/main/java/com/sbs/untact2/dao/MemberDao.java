@@ -1,5 +1,6 @@
 package com.sbs.untact2.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -20,6 +21,8 @@ public interface MemberDao {
 	public Member getMember(@Param(value = "id")int id);
 
 	public Member getMemberByAuthKey(@Param("authKey")String authKey);
+
+	public List<Member> getForPrintMembers(@Param(value = "loginId")String loginId);
 
 
 }
