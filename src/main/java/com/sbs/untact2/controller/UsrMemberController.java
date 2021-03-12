@@ -6,11 +6,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sbs.untact2.dto.Article;
 import com.sbs.untact2.dto.Member;
 import com.sbs.untact2.dto.ResultData;
 import com.sbs.untact2.service.MemberService;
@@ -20,7 +20,7 @@ public class UsrMemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@RequestMapping("/usr/member/doJoin")
+	@PostMapping("/usr/member/doJoin")
 	@ResponseBody
 	public ResultData doJoin(@RequestParam Map<String, Object> param) {
 		if(param.get("loginId") == null) {
@@ -46,7 +46,7 @@ public class UsrMemberController {
 		return memberService.addMember(param);
 	}
 	
-	@RequestMapping("/usr/member/doLogin")
+	@PostMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData doLogin(String loginId, String loginPw, HttpSession session) {
 		
@@ -70,7 +70,7 @@ public class UsrMemberController {
 		return new ResultData("P-1", String.format("%s님 환영", originMember.getName()));
 	}
 	
-	@RequestMapping("/usr/member/doLogout")
+	@PostMapping("/usr/member/doLogout")
 	@ResponseBody
 	public ResultData doLogout(HttpSession session) {
 		session.removeAttribute("loginedMemberId");
@@ -78,7 +78,7 @@ public class UsrMemberController {
 		return new ResultData("P-1", "로그아웃 성공");
 	}
 	
-	@RequestMapping("/usr/member/doModify")
+	@PostMapping("/usr/member/doModify")
 	@ResponseBody
 	public ResultData doModify(@RequestParam Map<String, Object> param, HttpSession session) {
 		if(param.isEmpty()) {
@@ -90,7 +90,7 @@ public class UsrMemberController {
 		return memberService.modifyMember(param);
 	}
 	
-	@RequestMapping("/usr/member/authKey")
+	@GetMapping("/usr/member/authKey")
 	@ResponseBody
 	public ResultData showAuthKey(String loginId, String loginPw) {
 		
@@ -112,7 +112,7 @@ public class UsrMemberController {
 		return new ResultData("P-1", String.format("%s님 환영", originMember.getName()), "authKey", originMember.getAuthKey(), "id", originMember.getId(), "name", originMember.getName(),"nickName", originMember.getNickname());
 	}
 	
-	@RequestMapping("/usr/member/memberByAuthKey")
+	@GetMapping("/usr/member/memberByAuthKey")
 	@ResponseBody
 	public ResultData showByAuthKey(String authKey) {
 		

@@ -1,14 +1,15 @@
 package com.sbs.untact2.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sbs.untact2.service.MemberService;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 	private int id;
 	private String regDate;
@@ -17,9 +18,14 @@ public class Member {
 	@JsonIgnore
 	private String loginPw;
 	@JsonIgnore
+	private int authLevel;
 	private String authKey;
 	private String name;
 	private String nickname;
 	private String cellphoneNo;
 	private String email;
+
+	public String getAuthLevelName() {
+		return MemberService.getAuthLevelName(this);
+	}
 }

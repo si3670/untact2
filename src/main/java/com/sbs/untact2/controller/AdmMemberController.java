@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,9 +19,45 @@ import com.sbs.untact2.service.MemberService;
 import com.sbs.untact2.util.Util;
 
 @Controller
-public class AdmMemberController {
+public class AdmMemberController extends BaseController {
 	@Autowired
 	private MemberService memberService;
+
+	@GetMapping("/adm/member/getLoginIdDup")
+	@ResponseBody
+	public ResultData getLoginIdDup(String loginId) {
+		if (loginId == null) {
+			return new ResultData("F-5", "loginId를 입력해주세요.");
+		}
+
+		if (Util.allNumberString(loginId)) {
+			return new ResultData("F-3", "로그인아이디는 숫자만으로 구성될 수 없습니다.");
+		}
+
+		if (Util.startsWithNumberString(loginId)) {
+			return new ResultData("F-4", "로그인아이디는 숫자로 시작할 수 없습니다.");
+		}
+
+		if (loginId.length() < 5) {
+			return new ResultData("F-5", "로그인아이디는 5자 이상으로 입력해주세요.");
+		}
+
+		if (loginId.length() > 20) {
+			return new ResultData("F-6", "로그인아이디는 20자 이하로 입력해주세요.");
+		}
+
+		if (Util.isStandardLoginIdString(loginId) == false) {
+			return new ResultData("F-1", "로그인아이디는 영문소문자와 숫자의 조합으로 구성되어야 합니다.");
+		}
+
+		Member existingMember = memberService.getMemberByLoginId(loginId);
+
+		if (existingMember != null) {
+			return new ResultData("F-2", String.format("%s(은)는 이미 사용중인 로그인아이디 입니다.", loginId));
+		}
+
+		return new ResultData("S-1", String.format("%s(은)는 사용가능한 로그인아이디 입니다.", loginId), "loginId", loginId);
+	}
 
 	@RequestMapping("/adm/member/login")
 	public String showLogin() {
@@ -106,31 +143,64 @@ public class AdmMemberController {
 		return Util.msgAndReplace("로그아웃 되었습니다.", "../member/login");
 	}
 
+	@RequestMapping("/adm/member/modify")
+	public String showModify(Integer id, HttpServletRequest req) {
+		if (id == null) {
+			return msgAndBack(req, "id를 입력해주세요.");
+		}
+		Member member = memberService.getForPrintMember(id);
+		req.setAttribute("member", member);
+
+		if (member == null) {
+			return msgAndBack(req, "존재하지 않는 회원번호입니다.");
+		}
+
+		return "adm/member/modify";
+	}
+
 	@RequestMapping("/adm/member/doModify")
 	@ResponseBody
-	public ResultData doModify(@RequestParam Map<String, Object> param, HttpSession session) {
+	public ResultData doModify(@RequestParam Map<String, Object> param, HttpServletRequest req) {
 		if (param.isEmpty()) {
 			return new ResultData("F-2", "수정할 사항을 입력해주세요");
 		}
 
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		param.put("id", loginedMemberId);
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		param.put("id", loginedMember);
 		return memberService.modifyMember(param);
 	}
-	
-	
-	@RequestMapping("/adm/member/list")
-	public String list() {
-		return "adm/member/list";
-	}
 
-	@RequestMapping("/adm/member/showList")
-	@ResponseBody
-	public String showList(HttpServletRequest req, String loginId) {
-		List<Member> members = memberService.getForPrintMembers(loginId);
+	@RequestMapping("/adm/member/list")
+	public String showList(HttpServletRequest req, @RequestParam(defaultValue = "1") int boardId,
+			String searchKeywordType, String searchKeyword, @RequestParam(defaultValue = "1") int page,
+			@RequestParam Map<String, Object> param) {
+		if (searchKeywordType != null) {
+			searchKeywordType = searchKeywordType.trim();
+		}
+
+		if (searchKeywordType == null || searchKeywordType.length() == 0) {
+			searchKeywordType = "name";
+		}
+
+		if (searchKeyword != null && searchKeyword.length() == 0) {
+			searchKeyword = null;
+		}
+
+		if (searchKeyword != null) {
+			searchKeyword = searchKeyword.trim();
+		}
+
+		if (searchKeyword == null) {
+			searchKeywordType = null;
+		}
+
+		int itemsInAPage = 20;
+
+		List<Member> members = memberService.getForPrintMembers(searchKeywordType, searchKeyword, page, itemsInAPage,
+				param);
+
 		req.setAttribute("members", members);
-		
-		return "adm/article/list";
-		
+
+		return "adm/member/list";
 	}
 }

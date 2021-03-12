@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.sbs.untact2.dto.Article;
 import com.sbs.untact2.dto.Board;
 import com.sbs.untact2.dto.GenFile;
+import com.sbs.untact2.dto.Member;
 import com.sbs.untact2.dto.ResultData;
 import com.sbs.untact2.service.ArticleService;
 import com.sbs.untact2.service.GenFileService;
@@ -120,14 +121,14 @@ public class AdmArticleController extends BaseController{
 	@RequestMapping("/adm/article/doDelete")
 	@ResponseBody
 	public ResultData doDelete(int id, HttpServletRequest req) {
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
 		Article article = articleService.getArticle(id);
 		if(article == null) {
 			return new ResultData("F-1", "해당 게시물이 존재하지 않습니다.");
 		}
 		
-		ResultData actorCanDeleteRd = articleService.getActorCanDeleteRd(article, loginedMemberId);
+		ResultData actorCanDeleteRd = articleService.getActorCanDeleteRd(article, loginedMember);
 		if(actorCanDeleteRd.isFail()) {
 			return actorCanDeleteRd;
 		}
@@ -152,14 +153,14 @@ public class AdmArticleController extends BaseController{
 	
 	@RequestMapping("/adm/article/doModify")
 	@ResponseBody
-	public ResultData doModify(int id, String title, String body, HttpSession session) {
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+	public ResultData doModify(int id, String title, String body, HttpServletRequest req) {
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 
 		Article article = articleService.getArticle(id);
 		if(article == null) {
 			return new ResultData("F-1", "해당 게시물이 존재하지 않습니다.");
 		}
-		ResultData actorCanModifyRd = articleService.getActorCanModifyRd(article, loginedMemberId);
+		ResultData actorCanModifyRd = articleService.getActorCanModifyRd(article, loginedMember);
 		if(actorCanModifyRd.isFail()) {
 			return actorCanModifyRd;
 		}

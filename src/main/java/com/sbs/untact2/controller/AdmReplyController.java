@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untact2.dto.Article;
+import com.sbs.untact2.dto.Member;
 import com.sbs.untact2.dto.Reply;
 import com.sbs.untact2.dto.ResultData;
-import com.sbs.untact2.reply.ReplyService;
 import com.sbs.untact2.service.ArticleService;
+import com.sbs.untact2.service.ReplyService;
 import com.sbs.untact2.util.Util;
 
 @Controller
@@ -48,14 +49,14 @@ public class AdmReplyController {
 	@RequestMapping("/adm/reply/doDelete")
 	@ResponseBody
 	public ResultData doDelete(int relId, HttpServletRequest req) {
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
 		Reply reply = replyService.getReply(relId);
 		if(reply == null) {
 			return new ResultData("F-1", "해당 댓글이 존재하지 않습니다.");
 		}
 		
-		ResultData actorCanDeleteRd = replyService.getActorCanDeleteRd(reply, loginedMemberId);
+		ResultData actorCanDeleteRd = replyService.getActorCanDeleteRd(reply, loginedMember);
 		if(actorCanDeleteRd.isFail()) {
 			return actorCanDeleteRd;
 		}
@@ -66,13 +67,13 @@ public class AdmReplyController {
 	@RequestMapping("/adm/reply/doModify")
 	@ResponseBody
 	public ResultData doModify(int relId, String body, HttpServletRequest req) {
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
 		Reply reply = replyService.getReply(relId);
 		if(reply == null) {
 			return new ResultData("F-1", "해당 댓글이 존재하지 않습니다.");
 		}
-		ResultData actorCanModifyRd = replyService.getActorCanModifyRd(reply, loginedMemberId);
+		ResultData actorCanModifyRd = replyService.getActorCanModifyRd(reply, loginedMember);
 		if(actorCanModifyRd.isFail()) {
 			return actorCanModifyRd;
 		}

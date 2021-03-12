@@ -23,13 +23,38 @@
 		CONCAT("authKey__", UUID(), "__", RAND())
 	</insert>
 
+	<select id="getForPrintMember" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE id
+		= #{id}
+	</select>
 
 	<select id="getForPrintMembers" resultType="Member">
-		SELECT *
-		FROM member
+		SELECT M.*
+		FROM `member` AS M
 		WHERE 1
-		AND loginId = #{loginId}
-		ORDER BY id DESC
+		<if test="searchKeywordType == 'name'">
+			AND M.name LIKE CONCAT('%', #{searchKeyword}, '%')
+		</if>
+		<if test="searchKeywordType == 'nickname'">
+			AND M.`nickname` LIKE CONCAT('%', #{searchKeyword}, '%')
+		</if>
+		<if test="searchKeywordType == 'nameAndNickname'">
+			AND (M.name LIKE CONCAT('%', #{searchKeyword}, '%') OR
+			M.nickname LIKE CONCAT('%', #{searchKeyword}, '%'))
+		</if>
+		<if test="searchKeywordType == 'loginId'">
+			AND M.loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+		</if>
+		<if test="authLevel != null and authLevel != ''">
+			AND M.authLevel = #{authLevel}
+		</if>
+
+		ORDER BY M.id DESC
+		<if test="limitStart != null and limitTake != null">
+			LIMIT #{limitStart}, #{limitTake}
+		</if>
 	</select>
 
 	<!-- public Member getMemberByLoginId(@Param(value = "loginId")String loginId); -->

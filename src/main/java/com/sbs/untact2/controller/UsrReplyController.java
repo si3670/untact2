@@ -3,19 +3,19 @@ package com.sbs.untact2.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untact2.dto.Article;
+import com.sbs.untact2.dto.Member;
 import com.sbs.untact2.dto.Reply;
 import com.sbs.untact2.dto.ResultData;
-import com.sbs.untact2.reply.ReplyService;
 import com.sbs.untact2.service.ArticleService;
-import com.sbs.untact2.util.Util;
+import com.sbs.untact2.service.ReplyService;
 
 @Controller
 public class UsrReplyController {
@@ -24,7 +24,7 @@ public class UsrReplyController {
 	@Autowired
 	private ArticleService articleService;
 
-	@RequestMapping("/usr/reply/list")
+	@GetMapping("/usr/reply/list")
 	@ResponseBody
 	public ResultData showlist(String relTypeCode, int relId) {
 		if (relTypeCode == null) {
@@ -45,17 +45,17 @@ public class UsrReplyController {
 		return new ResultData("P-1", "성공", "replise", replise);
 	}
 	
-	@RequestMapping("/usr/reply/doDelete")
+	@PostMapping("/usr/reply/doDelete")
 	@ResponseBody
 	public ResultData doDelete(int relId, HttpServletRequest req) {
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
 		Reply reply = replyService.getReply(relId);
 		if(reply == null) {
 			return new ResultData("F-1", "해당 댓글이 존재하지 않습니다.");
 		}
 		
-		ResultData actorCanDeleteRd = replyService.getActorCanDeleteRd(reply, loginedMemberId);
+		ResultData actorCanDeleteRd = replyService.getActorCanDeleteRd(reply, loginedMember);
 		if(actorCanDeleteRd.isFail()) {
 			return actorCanDeleteRd;
 		}
@@ -63,16 +63,16 @@ public class UsrReplyController {
 		return replyService.deleteReply(relId);
 	}
 	
-	@RequestMapping("/usr/reply/doModify")
+	@PostMapping("/usr/reply/doModify")
 	@ResponseBody
 	public ResultData doModify(int relId, String body, HttpServletRequest req) {
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
 		Reply reply = replyService.getReply(relId);
 		if(reply == null) {
 			return new ResultData("F-1", "해당 댓글이 존재하지 않습니다.");
 		}
-		ResultData actorCanModifyRd = replyService.getActorCanModifyRd(reply, loginedMemberId);
+		ResultData actorCanModifyRd = replyService.getActorCanModifyRd(reply, loginedMember);
 		if(actorCanModifyRd.isFail()) {
 			return actorCanModifyRd;
 		}

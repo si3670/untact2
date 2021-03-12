@@ -1,8 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../part/head.jspf"%>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 <script>
 	const JoinForm__checkAndSubmitDone = false;
+	let JoinForm__validLoginId = '';
+
+	//로그인 아이디 중복체크 함수
+	function JoinForm__checkLoginIdDup() {
+		const form = $('.formLogin').get(0); //가장 가까운 form을 구한다
+
+		form.loginId.value = form.loginId.value.trim();
+		if (form.loginId.value.length == 0) {
+			alert('로그인아이디를 입력해주세요.');
+			form.loginId.focus();
+			return;
+		}
+
+		$.get('getLoginIdDup', {
+			loginId : form.loginId.value
+		},
+				function(data) {
+					let colorClass = 'text-green-500';
+
+					if (data.fail) {
+						colorClass = 'text-red-500';
+					}
+
+					$('.loginIdInputMsg').html(
+							"<span class='" + colorClass + "'>" + data.msg
+									+ "</span>");
+					if (data.fail) {
+						form.loginId.focus();
+					} else {
+						JoinForm__validLoginId = data.body.loginId;
+						form.loginPw.focus();
+					}
+				}, 'json');
+	}
+
 	function JoinForm__checkAndSubmit(form) {
 		if (JoinForm__checkAndSubmitDone) {
 			return;
@@ -13,6 +50,13 @@
 			form.loginId.focus();
 			return;
 		}
+
+		if (form.loginId.value != JoinForm__validLoginId) {
+			alert('로그인아이디 중복체크를 해주세요.');
+			form.loginId.focus();
+			return;
+		}
+
 		form.loginPw.value = form.loginPw.value.trim();
 		if (form.loginPw.value.length == 0) {
 			alert('로그인비번을 입력해주세요.');
@@ -56,6 +100,12 @@
 		form.submit();
 		JoinForm__checkAndSubmitDone = true;
 	}
+	$(function() {
+		$('.inputLoginId').change(function() {
+			JoinForm__checkLoginIdDup();
+		});
+		$('.inputLoginId').keyup(_.debounce(JoinForm__checkLoginIdDup, 1000));
+	});
 </script>
 <section class="section-login">
 	<div
@@ -70,7 +120,7 @@
 				</a>
 			</div>
 			<form
-				class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
+				class="formLogin bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
 				action="doJoin" method="post"
 				onsubmit="JoinForm__checkAndSubmit(this); return false;">
 				<input type="hidden" name="redirectUrl" value="${param.redirectUrl}" />
@@ -81,9 +131,10 @@
 					</div>
 					<div class="p-1 md:flex-grow">
 						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker md:flex-row"
+							class="inputLoginId shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker md:flex-row"
 							autofocus="autofocus" type="text" placeholder="아이디를 입력해주세요"
 							name="loginId" maxlength="20" />
+						<div class="loginIdInputMsg"></div>
 					</div>
 				</div>
 				<div class="flex flex-col md:flex-row pb-3">

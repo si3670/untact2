@@ -22,7 +22,10 @@ public interface MemberDao {
 
 	public Member getMemberByAuthKey(@Param("authKey")String authKey);
 
-	public List<Member> getForPrintMembers(@Param(value = "loginId")String loginId);
+	List<Member> getForPrintMembers(Map<String, Object> param);
+
+	public Member getForPrintMember(@Param(value = "id")int id);
+
 
 
 }

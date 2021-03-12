@@ -59,6 +59,14 @@
 		AND relId = #{relId}
 	</select>
 
+	<update id="changeRelId">
+		UPDATE genFile
+		<set>
+			updateDate = NOW(),
+			relId = #{relId}
+		</set>
+		WHERE id = #{id}
+	</update>
 
 
 

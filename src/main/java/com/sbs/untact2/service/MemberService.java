@@ -15,16 +15,28 @@ import com.sbs.untact2.util.Util;
 public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
-	
+
+	public static String getAuthLevelName(Member member) {
+		switch (member.getAuthLevel()) {
+		case 7:
+			return "관리자";
+		case 3:
+			return "일반회원";
+		default:
+			return "유형정보없음";
+		}
+	}
+
 	public ResultData addMember(Map<String, Object> param) {
 		memberDao.addMember(param);
 		int id = Util.getAsInt(param.get("id"), 0);
-		return new ResultData("P-1","가입 성공", "id", id);
+		return new ResultData("P-1", "가입 성공", "id", id);
 	}
-	
+
 	public Member getMember(int id) {
 		return memberDao.getMember(id);
 	}
+
 	public Member getMemberByLoginId(String loginId) {
 		return memberDao.getMemberByLoginId(loginId);
 	}
@@ -34,27 +46,29 @@ public class MemberService {
 		return new ResultData("P-1", "수정 성공");
 	}
 
-	public boolean isAdmin(int actorId) {
-		return actorId == 1;
-	}
-
 	public boolean isAdmin(Member actor) {
-		return isAdmin(actor.getId());
+		return actor.getAuthLevel() == 7;
 	}
 
 	public Member getMemberByAuthKey(String authKey) {
 		return memberDao.getMemberByAuthKey(authKey);
-		
+
 	}
 
+	public List<Member> getForPrintMembers(String searchKeywordType, String searchKeyword, int page, int itemsInAPage, Map<String, Object> param) {
+		int limitStart = (page - 1) * itemsInAPage;
+		int limitTake = itemsInAPage;
 
-	public List<Member> getForPrintMembers(String loginId) {
-		return memberDao.getForPrintMembers(loginId);
+		param.put("searchKeywordType", searchKeywordType);
+		param.put("searchKeyword", searchKeyword);
+		param.put("limitStart", limitStart);
+		param.put("limitTake", limitTake);
+
+		return memberDao.getForPrintMembers(param);
 	}
 
-
-
-
-
+	public Member getForPrintMember(int id) {
+		return memberDao.getForPrintMember(id);
+	}
 
 }
