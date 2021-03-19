@@ -46,3 +46,21 @@ min-h-screen{
 textarea.form-row-input {
 	min-height:100px;
 } 
+
+.img-box>img{
+	display:block;
+	width:100%;
+}
+.visual>.text{
+    top:50%;
+    right:100px;
+    transform:translatey(-50%);
+    color:white;
+}
+.visual>.text>h1{
+    font-size:45px;
+}
+.visual>.text>p{
+	font-size:14px;
+}
+

@@ -101,8 +101,10 @@ public class UsrArticleController {
 
 	@PostMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(int id, String title, String body, HttpServletRequest req) {
+	public ResultData doModify(@RequestParam Map<String, Object> param, HttpServletRequest req) {
 		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		
+		int id = Util.getAsInt(param.get("id"), 0);
 
 		Article article = articleService.getArticle(id);
 		if(article == null) {
@@ -113,7 +115,7 @@ public class UsrArticleController {
 			return actorCanModifyRd;
 		}
 		
-		return articleService.modifyArticle(id, title, body);
+		return articleService.modifyArticle(param);
 	}
 	
 	@PostMapping("/usr/article/doAddReply")

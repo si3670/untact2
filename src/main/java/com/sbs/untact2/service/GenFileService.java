@@ -40,7 +40,7 @@ public class GenFileService {
 		return new ResultData("S-1", "성공하였습니다.", "id", id);
 	}
 
-	public ResultData save(MultipartFile multipartFile, int relId) {
+	public ResultData save(MultipartFile multipartFile) {
 		String fileInputName = multipartFile.getName();
 		String[] fileInputNameBits = fileInputName.split("__");
 
@@ -55,6 +55,7 @@ public class GenFileService {
 		}
 
 		String relTypeCode = fileInputNameBits[1];
+		int relId = Integer.parseInt(fileInputNameBits[2]);
 		String typeCode = fileInputNameBits[3];
 		String type2Code = fileInputNameBits[4];
 		int fileNo = Integer.parseInt(fileInputNameBits[5]);
@@ -70,6 +71,14 @@ public class GenFileService {
 		}
 
 		String fileDir = Util.getNowYearMonthDateStr();
+		
+		if (relId > 0) {
+			GenFile oldGenFile = getGenFile(relTypeCode, relId, typeCode, type2Code, fileNo);
+
+			if (oldGenFile != null) {
+				deleteGenFile(oldGenFile);
+			}
+		}
 
 		ResultData saveMetaRd = saveMeta(relTypeCode, relId, typeCode, type2Code, fileNo, originFileName,
 				fileExtTypeCode, fileExtType2Code, fileExt, fileSize, fileDir);
@@ -98,18 +107,27 @@ public class GenFileService {
 
 	}
 
-	public GenFile getGenFile(String relTypeCode, int relId, String typeCode, String type2Code, int fileNo) {
-		return genFileDao.getGenFile(relTypeCode, relId, typeCode, type2Code, fileNo);
+	private void deleteGenFile(GenFile genFile) {
+		String filePath = genFile.getFilePath(genFileDirPath);
+		Util.delteFile(filePath);
+		
+
+		genFileDao.deleteFile(genFile.getId());
+		
 	}
 
-	public void deleteFiles(String relTypeCode, int relId) {
+	public void deleteGenFiles(String relTypeCode, int relId) {
 		List<GenFile> genFiles = genFileDao.getGenFiles(relTypeCode, relId);
 		for (GenFile genFile : genFiles) {
-			deleteFile(genFile);
+			deleteGenFile(genFile);
 		}
 
 	}
 
+	public GenFile getGenFile(String relTypeCode, int relId, String typeCode, String type2Code, int fileNo) {
+		return genFileDao.getGenFile(relTypeCode, relId, typeCode, type2Code, fileNo);
+	}
+	
 	private void deleteFile(GenFile genFile) {
 		String filePath = genFile.getFilePath(genFileDirPath);
 		Util.delteFile(filePath);
@@ -128,7 +146,7 @@ public class GenFileService {
 			MultipartFile multipartFile = fileMap.get(fileInputName);
 
 			if (multipartFile.isEmpty() == false) {
-				ResultData fileResultData = save(multipartFile, 0);
+				ResultData fileResultData = save(multipartFile);
 				int genFileId = (int) fileResultData.getBody().get("id");
 				genFileIds.add(genFileId);
 
@@ -146,5 +164,8 @@ public class GenFileService {
 		genFileDao.changeRelId(id, relId);
 	}
 
+	public List<GenFile> getGenFiles(String relTypeCode, int relId, String typeCode, String type2Code) {
+		return genFileDao.getGenFiles(relTypeCode, relId, typeCode, type2Code);
+	}
 
 }

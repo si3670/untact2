@@ -1,5 +1,4 @@
 package com.sbs.untact2.service;
-
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,29 @@ public class ArticleService {
 	public ResultData addArticle(Map<String, Object> param) {
 		articleDao.addArticle(param);
 		int id = Util.getAsInt(param.get("id"), 0);
+		changeInputFileRelIds(param, id);
+		return new ResultData("P-1", "성공", "id", id);
+	}
+
+	public ResultData deleteArticle(int id) {
+		articleDao.deleteArticle(id);
+		
+		genFileService.deleteGenFiles("article", id);
+		
+		return new ResultData("P-1", "삭제 성공", "id", id);
+	}
+
+	public ResultData modifyArticle(Map<String, Object> param) {
+		articleDao.modifyArticle(param);
+
+		int id = Util.getAsInt(param.get("id"), 0);
+
+//		changeInputFileRelIds(param, id);
+
+		return new ResultData("P-1", "성공", "id", id);
+	}
+
+	private void changeInputFileRelIds(Map<String, Object> param, int id) {
 		String genFileIdsStr = Util.ifEmpty((String)param.get("genFileIdsStr"), null);
 
 		if ( genFileIdsStr != null ) {
@@ -40,34 +62,21 @@ public class ArticleService {
 				genFileService.changeRelId(genFileId, id);
 			}
 		}
-		return new ResultData("P-1", "성공", "id", id);
 	}
-
-	public ResultData deleteArticle(int id) {
-		articleDao.deleteArticle(id);
 		
-		genFileService.deleteFiles("article", id);
-		
-		return new ResultData("P-1", "삭제 성공", "id", id);
-	}
-
-	public ResultData modifyArticle(int id, String title, String body) {
-		articleDao.modifyArticle(id, title, body);
-
-		return new ResultData("P-1", "성공", "id", id);
-	}
-
 	public List<Article> getArticles(String searchKeyword, String searchKeywordType) {
 		return articleDao.getArticles(searchKeyword, searchKeywordType);
 	}
 
 	public ResultData getActorCanModifyRd(Article article, Member actor) {
 		if (article.getMemberId() == actor.getId()) {
-			return new ResultData("P-1", "가능합니다.");
+			return new ResultData("S-1", "가능합니다.");
 		}
+
 		if (memberService.isAdmin(actor)) {
-			return new ResultData("P-2", "가능합니다.");
+			return new ResultData("S-2", "가능합니다.");
 		}
+
 		return new ResultData("F-1", "권한이 없습니다.");
 	}
 
@@ -107,5 +116,12 @@ public class ArticleService {
 		return new ResultData("F-1", "권한이 없습니다.");
 	}
 
+	public int getArticlesTotalCount(int boardId, String searchKeyword, String searchKeywordType) {
+		return articleDao.getArticlesTotalCount(boardId, searchKeyword, searchKeywordType);
+	}
+
+	public void increaseArticleHit(Integer id) {
+		articleDao.increaseArticleHit(id);
+	}
 
 }

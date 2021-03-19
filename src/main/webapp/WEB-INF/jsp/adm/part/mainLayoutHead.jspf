@@ -21,13 +21,14 @@
 					</a>
 				</li>
 				<li>
-					<a href="/adm/article/list?boardId=1"
+					<a href="/adm/board/list"
 						class="px-4 h-full flex items-center hover:underline">
 						<span>게시판</span>
 					</a>
 				</li>
 				<li>
-					<a href="#" class="px-4 h-full flex items-center hover:underline">
+					<a href="/adm/article/list"
+						class="px-4 h-full flex items-center hover:underline">
 						<span>게시물</span>
 					</a>
 				</li>
