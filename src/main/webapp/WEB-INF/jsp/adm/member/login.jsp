@@ -25,56 +25,55 @@
 		LoginForm__checkAndSubmitDone = true;
 	}
 </script>
-<section class="section-Login">
+<section
+	class="section-Login flex items-center min-h-screen bg-white dark:bg-gray-900">
 	<div
 		class="container mx-auto min-h-screen flex items-center justify-center">
-		<div class="w-full">
+		<div class="max-w-md mx-auto my-10">
 			<div class="logo-bar flex justify-center mt-3 mb-3">
 				<a href="#" class="logo">
-					<span>
-						<i class="fas fa-people-arrows"></i>
-					</span>
-					<span>UNTACT</span>
+					<span>Cellar Admin</span>
 				</a>
 			</div>
-			<form
-				class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
-				action="doLogin" method="post"
-				onsubmit="LoginForm__checkAndSubmit(this); return false;">
-				<input type="hidden" name="redirectUrl" value="${param.redirectUrl}" />
-				<div class="flex flex-col md:flex-row pb-3">
-					<div
-						class="p-1 block text-grey-darker font-bold md:w-36 md:flex md:items-center">
-						<span>아이디</span>
-					</div>
-					<div class="p-1 md:flex-grow">
+			<div class="m-7">
+				<form
+					class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
+					action="doLogin" method="post"
+					onsubmit="LoginForm__checkAndSubmit(this); return false;">
+					<input type="hidden" name="redirectUrl"
+						value="${param.redirectUrl}" />
+					<div class="mb-6">
+						<label class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Id</label>
 						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker md:flex-row"
-							autofocus="autofocus" type="text" placeholder="아이디를 입력해주세요"
+							class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md "
+							autofocus="autofocus" type="text" placeholder="id를 입력해주세요."
 							name="loginId" maxlength="20" />
 					</div>
-				</div>
-				<div class="flex flex-col md:flex-row pb-3">
-					<div
-						class="p-1 block text-grey-darker font-bold md:w-36 md:flex md:items-center">
-						<span>비밀번호</span>
+					<div class="mb-6">
+							<label class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Password</label>
+							<input class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md "
+								autofocus="autofocus" type="password" placeholder="password를 입력해주세요."
+								name="loginPw" maxlength="20" />
+						</div>
+					<div class="mb-6">
+						<button
+							class="w-full px-2 py-1 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
+							type="sumit">login</button>
 					</div>
-					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="password" placeholder="비밀번호를 입력해주세요"
-							name="loginPw" maxlength="20" />
-					</div>
-				</div>
-				<div class="flex items-center">
-					<button
-						class="bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
-						type="sumit">로그인</button>
-					<a href="/adm/member/join"
-						class="ml-2 bg-green-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
-						type="sumit">회원가입</a>
-				</div>
-			</form>
+						<p class="text-sm text-center text-gray-400">
+						Don't have an account yet?	
+						<a href="/adm/member/join"
+							class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
+							type="sumit">SignUp</a>
+					</p>
+					<p class="text-sm text-center text-gray-400">
+						Don't have an account yet?	
+						<a href="/adm/member/findLoginInfo"
+							class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
+							type="sumit">find Id/Password</a>
+					</p>
+				</form>
+			</div>
 		</div>
 
 	</div>

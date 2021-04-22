@@ -1,6 +1,7 @@
 package com.sbs.untact2.service;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.sbs.untact2.dao.ArticleDao;
 import com.sbs.untact2.dto.Article;
 import com.sbs.untact2.dto.Board;
+import com.sbs.untact2.dto.GenFile;
 import com.sbs.untact2.dto.Member;
+import com.sbs.untact2.dto.Movie;
 import com.sbs.untact2.dto.ResultData;
 import com.sbs.untact2.util.Util;
 
@@ -28,7 +31,7 @@ public class ArticleService {
 	public ResultData addArticle(Map<String, Object> param) {
 		articleDao.addArticle(param);
 		int id = Util.getAsInt(param.get("id"), 0);
-		changeInputFileRelIds(param, id);
+		genFileService.changeInputFileRelIds(param, id);
 		return new ResultData("P-1", "성공", "id", id);
 	}
 
@@ -49,21 +52,7 @@ public class ArticleService {
 
 		return new ResultData("P-1", "성공", "id", id);
 	}
-
-	private void changeInputFileRelIds(Map<String, Object> param, int id) {
-		String genFileIdsStr = Util.ifEmpty((String)param.get("genFileIdsStr"), null);
-
-		if ( genFileIdsStr != null ) {
-			List<Integer> genFileIds = Util.getListDividedBy(genFileIdsStr, ",");
-
-			// 파일이 먼저 생성된 후에, 관련 데이터가 생성되는 경우에는, file의 relId가 일단 0으로 저장된다.
-			// 그것을 뒤늦게라도 이렇게 고처야 한다.
-			for (int genFileId : genFileIds) {
-				genFileService.changeRelId(genFileId, id);
-			}
-		}
-	}
-		
+			
 	public List<Article> getArticles(String searchKeyword, String searchKeywordType) {
 		return articleDao.getArticles(searchKeyword, searchKeywordType);
 	}
@@ -88,12 +77,26 @@ public class ArticleService {
 		return articleDao.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles(int boardId, String searchKeyword, String searchKeywordType, int page,
+	public List<Article> getForPrintArticles(int boardId, String searchKeywordType, String searchKeyword, int page,
 			int itemsInAPage) {
+		
 		int limitStart = (page - 1) * itemsInAPage;
 		int limitTake = itemsInAPage;
 
-		return articleDao.getForPrintArticles(boardId, searchKeyword, searchKeywordType, limitStart, limitTake);
+		List<Article> articles = articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitStart, limitTake);
+		List<Integer> articleIds = articles.stream().map(article -> article.getId()).collect(Collectors.toList());
+		Map<Integer, Map<String, GenFile>> filesMap = genFileService.getFilesMapKeyRelIdAndFileNo("article", articleIds, "common", "attachment");
+
+		for (Article article : articles) {
+			Map<String, GenFile> mapByFileNo = filesMap.get(article.getId());
+
+			if (mapByFileNo != null) {
+				article.getExtraNotNull().put("file__common__attachment", mapByFileNo);
+			}
+		}
+
+		
+		return articles;
 	}
 
 	public Board getBoard(int id) {
@@ -123,5 +126,6 @@ public class ArticleService {
 	public void increaseArticleHit(Integer id) {
 		articleDao.increaseArticleHit(id);
 	}
+
 
 }

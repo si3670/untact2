@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.untact2.dao.BoardDao;
+import com.sbs.untact2.dto.Article;
 import com.sbs.untact2.dto.Board;
 import com.sbs.untact2.dto.Member;
 import com.sbs.untact2.dto.ResultData;
@@ -17,15 +18,15 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<Board> getForPrintBoards(int boardId, String searchKeywordType, String searchKeyword, int page, int itemsInAPage
+	public List<Board> getForPrintBoards(String searchKeywordType, String searchKeyword, int page, int itemsInAPage
 			) {
 		int limitStart = (page - 1) * itemsInAPage;
 		int limitTake = itemsInAPage;
-		return boardDao.getForPrintBoards(boardId, searchKeyword, searchKeywordType, limitStart, limitTake);
+		return boardDao.getForPrintBoards(searchKeyword, searchKeywordType, limitStart, limitTake);
 	}
 
-	public int getBoardsTotalCount(int boardId, String searchKeywordType, String searchKeyword) {
-		return boardDao.getBoardsTotalCount(boardId, searchKeyword, searchKeywordType);
+	public int getBoardsTotalCount(String searchKeywordType, String searchKeyword) {
+		return boardDao.getBoardsTotalCount(searchKeyword, searchKeywordType);
 	}
 
 	public ResultData addBoard(Map<String, Object> param) {
@@ -43,6 +44,22 @@ public class BoardService {
 
 		return new ResultData("P-1", "삭제 성공", "id", id);
 	}
+
+
+	public ResultData modifyboard(Map<String, Object> param) {
+		boardDao.modifyBoard(param);
+
+		int id = Util.getAsInt(param.get("id"), 0);
+
+		return new ResultData("P-1", "성공", "id", id);
+	}
+
+	public Board getBoardByCode(String code) {
+		return boardDao.getBoardByCode(code);
+	}
+
+
+
 
 
 }

@@ -26,6 +26,8 @@ public interface MemberDao {
 
 	public Member getForPrintMember(@Param(value = "id")int id);
 
+	public Member getMemberByNameAndEmail(@Param(value = "name")String name, @Param(value = "email")String email);
+
 
 
 }

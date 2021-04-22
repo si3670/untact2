@@ -2,10 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@ include file="../part/mainLayoutHead.jspf"%>
+
 <script>
 	param.boardId = parseInt("${board.id}");
 </script>
+
 <section class="section-1">
 	<div class="bg-white shadow-md rounded container mx-auto p-8 mt-8">
 		<div class="flex items-center">
@@ -15,17 +18,19 @@
 			</select>
 			<script>
 				$('.section-1 .select-board-id').val(param.boardId);
+
 				$('.section-1 .select-board-id').change(function() {
 					location.href = '?boardId=' + this.value;
 				});
 			</script>
+
 			<div class="flex-grow"></div>
+
 			<a href="add?boardId=${board.id}"
 				class="btn-primary bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">글쓰기</a>
 		</div>
 
-		<div class="ml-1">총 게시물 수 :
-			${Util.numberFormat(totalItemsCount)}</div>
+		<div>총 게시물 수 : ${Util.numberFormat(totalItemsCount)}</div>
 
 		<form class="flex mt-3">
 			<select name="searchKeywordType">
@@ -35,7 +40,8 @@
 			</select>
 			<script>
 				if (param.searchKeywordType) {
-					$('.section-1 select[name="searchKeywordType"]').val(param.searchKeywordType);
+					$('.section-1 select[name="searchKeywordType"]').val(
+							param.searchKeywordType);
 				}
 			</script>
 			<input
@@ -57,7 +63,8 @@
 				<div class="flex items-center mt-10">
 					<a href="${detailUrl}" class="font-bold">NO. ${article.id}</a>
 					<a href="${detailUrl}" class="ml-2 font-light text-gray-600">${article.regDate}</a>
-					<a href="${detailUrl}" class="ml-2 font-light text-gray-600">조회 : ${article.hit}</a>
+					<a href="${detailUrl}" class="ml-2 font-light text-gray-600">조회
+						: ${article.hit}</a>
 					<div class="flex-grow"></div>
 					<a href="list?boardId=${article.boardId}"
 						class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500">${article.extra__boardName}</a>
@@ -86,28 +93,22 @@
 							<img
 								src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
 								alt="avatar" class="mx-4 w-10 h-10 object-cover rounded-full">
-							<h1 class="text-gray-700 font-bold hover:underline">${article.extra__writer}</h1>
+							<h1 class="text-gray-700 hover:underline">${article.extra__writer}</h1>
 						</a>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 
-		<nav class="flex justify-center rounded-md shadow-sm mt-3"
+		<nav class="flex justify-center rounded-md mt-3"
 			aria-label="Pagination">
-			<c:if test="${pageMenuStart != 1 }">
+			<c:if test="${pageMenuStart != 1}">
 				<a href="${Util.getNewUrl(requestUrl, 'page', 1)}"
 					class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-					<a href="?page=1"
-						class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-						<span class="sr-only">Previous</span>
+					<span class="sr-only">Previous</span>
 
-						<i class="fas fa-chevron-left"></i>
-					<path fill-rule="evenodd"
-								d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-								clip-rule="evenodd" />
-				</svg>
-					</a>
+					<i class="fas fa-chevron-left"></i>
+				</a>
 			</c:if>
 
 			<c:forEach var="i" begin="${pageMenuStart}" end="${pageMenuEnd}">
@@ -121,8 +122,10 @@
 					<c:set var="aClassStr"
 						value="${aClassStr} text-gray-700 hover:bg-gray-50" />
 				</c:if>
-				<a href="${Util.getNewUrl(requestUrl, 'page', i)}" class="${aClassStr}">${i}</a>
+				<a href="${Util.getNewUrl(requestUrl, 'page', i)}"
+					class="${aClassStr}">${i}</a>
 			</c:forEach>
+
 			<c:if test="${pageMenuEnd != totalPage}">
 				<a href="${Util.getNewUrl(requestUrl, 'page', totalPage)}"
 					class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
@@ -130,13 +133,10 @@
 					<span class="sr-only">Next</span>
 
 					<i class="fas fa-chevron-right"></i>
-					<path fill-rule="evenodd"
-							d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-							clip-rule="evenodd" />
-          		</svg>
 				</a>
 			</c:if>
 		</nav>
 	</div>
 </section>
+
 <%@ include file="../part/mainLayoutFoot.jspf"%>

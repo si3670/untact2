@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reply {
+public class Reply extends EntityDto{
 	private int id;
 	private String regDate;
 	private String updateDate;

@@ -11,17 +11,21 @@ import com.sbs.untact2.dto.Board;
 @Mapper
 public interface BoardDao {
 
-	List<Board> getForPrintBoards(@Param("boardId") int boardId, @Param("searchKeywordType") String searchKeywordType,
+	List<Board> getForPrintBoards(@Param("searchKeywordType") String searchKeywordType,
 			@Param("searchKeyword") String searchKeyword, @Param("limitStart") int limitStart,
 			@Param("limitTake") int limitTake);
 
-	int getBoardsTotalCount(@Param("boardId") int boardId, @Param("searchKeywordType") String searchKeywordType,
+	int getBoardsTotalCount(@Param("searchKeywordType") String searchKeywordType,
 			@Param("searchKeyword") String searchKeyword);
 
 	void addBoard(Map<String, Object> param);
 
-	Board getBoard(@Param("id")int id);
+	Board getBoard(@Param("id") int id);
 
-	void deleteBoard(@Param("id")int id);
+	void deleteBoard(@Param("id") int id);
+
+	void modifyBoard(Map<String, Object> param);
+
+	Board getBoardByCode(@Param("code")String code);
 
 }

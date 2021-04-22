@@ -5,6 +5,14 @@
 
 <mapper namespace="com.sbs.untact2.dao.BoardDao">
 
+	<select id="getBoardByCode" resultType="Board">
+		SELECT *
+		FROM board
+		WHERE
+		`code` = #{code}
+	</select>
+
+
 	<select id="getBoard" resultType="Board">
 		SELECT *
 		FROM board
@@ -24,9 +32,9 @@
 			AND B.`name` LIKE CONCAT('%', #{searchKeyword}, '%')
 		</if>
 		<if test="searchKeywordType == 'codeAndName'">
-			AND (M.codeAndName LIKE CONCAT('%', #{searchKeyword}, '%')
+			AND (B.codeAndName LIKE CONCAT('%', #{searchKeyword}, '%')
 			OR
-			M.`name` LIKE CONCAT('%', #{searchKeyword}, '%'))
+			B.`name` LIKE CONCAT('%', #{searchKeyword}, '%'))
 		</if>
 		ORDER BY B.id DESC
 		<if test="limitStart != null and limitTake != null">
@@ -38,15 +46,15 @@
 		SELECT COUNT(*)
 		FROM board AS B
 		WHERE 1
-		<if test="searchKeywordType == 'title'">
-			AND B.title LIKE CONCAT('%', #{searchKeyword} ,'%')
+		<if test="searchKeywordType == 'code'">
+			AND B.`code` LIKE CONCAT('%', #{searchKeyword} ,'%')
 		</if>
-		<if test="searchKeywordType == 'body'">
-			AND B.`body` LIKE CONCAT('%', #{searchKeyword} ,'%')
+		<if test="searchKeywordType == 'name'">
+			AND B.`name` LIKE CONCAT('%', #{searchKeyword} ,'%')
 		</if>
-		<if test="searchKeywordType == 'titleAndBody'">
-			AND (B.title LIKE CONCAT('%', #{searchKeyword} ,'%') OR
-			B.`body` LIKE CONCAT('%', #{searchKeyword} ,'%'))
+		<if test="searchKeywordType == 'codeAndName'">
+			AND (B.`code` LIKE CONCAT('%', #{searchKeyword} ,'%') OR
+			B.`name` LIKE CONCAT('%', #{searchKeyword} ,'%'))
 		</if>
 	</select>
 
@@ -64,6 +72,22 @@
 		DELETE FROM board
 		WHERE id = #{id}
 	</delete>
+
+	<update id="modifyBoard">
+		UPDATE board
+		<set>
+			<if test="code != null || name != null">
+				updateDate = NOW(),
+			</if>
+			<if test="code != null">
+				`code` = #{code},
+			</if>
+			<if test="code != null || name != null">
+				`name` = #{name}
+			</if>
+			WHERE id = #{id}
+		</set>
+	</update>
 
 
 

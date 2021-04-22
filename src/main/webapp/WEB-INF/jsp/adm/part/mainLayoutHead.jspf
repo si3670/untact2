@@ -4,10 +4,7 @@
 <header class="top-bar h-20 bg-white">
 	<div class="container mx-auto h-full flex">
 		<a href="/adm/home/main" class="logo flex items-center ml-3">
-			<span>
-				<i class="fas fa-people-arrows"></i>
-			</span>
-			<span>UNTACT Admin</span>
+			<span>Cellar Admin</span>
 		</a>
 
 		<div class="flex-grow"></div>
@@ -26,12 +23,45 @@
 						<span>게시판</span>
 					</a>
 				</li>
+							
 				<li>
-					<a href="/adm/article/list"
-						class="px-4 h-full flex items-center hover:underline">
-						<span>게시물</span>
+					<a href="#" class="px-4 h-full flex items-center hover:underline">
+						<span>&nbsp;게시물</span>
 					</a>
+					<div>
+						<ul>
+							<li>
+								<a href="../article/list?boardId=1">
+									<span>&nbsp;NOTICE</span>
+								</a>
+							</li>
+							<li>
+								<a href="../article/list?boardId=2">
+									<span>&nbsp;FREE</span>
+								</a>
+							</li>
+						</ul>
+					</div>
 				</li>
+				<li>
+					<a href="#" class="px-4 h-full flex items-center hover:underline">
+						<span>&nbsp;카테고리</span>
+					</a>
+					<div>
+						<ul>
+							<li>
+								<a href="#">
+									<span>&nbsp;Dry</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<span>&nbsp;Sweet</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>				
 				<li>
 					<a href="/adm/member/list"
 						class="px-4 h-full flex items-center hover:underline">

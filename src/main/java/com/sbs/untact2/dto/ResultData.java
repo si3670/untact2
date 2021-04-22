@@ -7,7 +7,7 @@ import com.sbs.untact2.util.Util;
 import lombok.Data;
 
 @Data
-public class ResultData {
+public class ResultData extends EntityDto{
 	private String resultCode;
 	private String msg;
 	private Map<String, Object> body;

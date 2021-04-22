@@ -1,42 +1,57 @@
 @font-face {
-  font-family: 'LotteMartDream';
-  font-style: normal;
-  font-weight: 400;
-  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2')
+		format('woff2'),
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff')
+		format('woff');
 }
 
 @font-face {
-  font-family: 'LotteMartDream';
-  font-style: normal;
-  font-weight: 700;
-  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2')
+		format('woff2'),
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff')
+		format('woff');
 }
 
 @font-face {
-  font-family: 'LotteMartDream';
-  font-style: normal;
-  font-weight: 300;
-  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 300;
+	src:
+		url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2')
+		format('woff2'),
+		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff')
+		format('woff');
 }
 
-html, html > body{
- font-family: 'LotteMartDream', sans-serif;
+html, html>body {
+	font-family: 'LotteMartDream', sans-serif;
 }
-min-h-screen{
+
+min-h-screen {
 	height: 100%;
 }
+
 .logo {
-  font-size:2rem;
-  display:inline-flex;
+	font-size: 2rem;
+	display: inline-flex;
 }
 
-.logo > span:last-child {
-  font-style:italic;
-  margin-left:0.5rem;
-  font-weight:bold;
+.logo>span:last-child {
+	font-style: italic;
+	margin-left: 0.5rem;
+	font-weight: bold;
 }
-.form-row + .form-row {
-	margin-top:10px;
+
+.form-row+.form-row {
+	margin-top: 10px;
 }
 
 .form-row-input {
@@ -44,23 +59,137 @@ min-h-screen{
 }
 
 textarea.form-row-input {
-	min-height:100px;
-} 
-
-.img-box>img{
-	display:block;
-	width:100%;
-}
-.visual>.text{
-    top:50%;
-    right:100px;
-    transform:translatey(-50%);
-    color:white;
-}
-.visual>.text>h1{
-    font-size:45px;
-}
-.visual>.text>p{
-	font-size:14px;
+	min-height: 100px;
 }
 
+.img-box>img {
+	display: block;
+	width: 100%;
+}
+
+/* 비주얼 시작 */ 
+.visual>.text {
+	top: 50%;
+	left: 100px;
+	transform: translatey(-50%);
+	color: white;
+}
+
+.visual>.text>h1 {
+	font-size: 45px;
+}
+
+.visual>.text>p {
+	font-size: 14px;
+}
+/* 비주얼 끝 */ 
+
+
+.card-title {
+	background-color: #000069;
+	color: white;
+	text-align: center;
+	height: 40px;
+	width: 100%;
+	align-items: center;
+	display: grid;
+}
+
+.card-title-2 {
+  background-color:rgb(87, 13, 248);
+  color:white;
+  text-align:center;
+  height:var(--card-title_height);
+  position:absolute;
+  width:100%;
+  display:grid;
+  align-items:center;
+  grid-template-columns: var(--card-title_left-btn-cell-width) auto var(--card-title_left-btn-cell-width);
+}
+
+.card-title + * {
+  margin-top: var(--card-title_height);
+}
+
+
+/* 탑바 - 메뉴 박스 시작 */
+.top-bar .menu-box-1 {
+  overflow-x:auto;
+}
+
+/* 탑바 - 메뉴 박스 - 터치 불가능한 경우 스크롤바 제거 */
+.touch-imposible .menu-box-1::-webkit-scrollbar
+{
+  width: 0;
+  height: 0;
+}
+
+/* 탑바 - 메뉴 박스 - 더보기 그림자 시작 */
+.top-bar .container {
+  position:relative;
+}
+
+.top-bar .container::after {
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:40px;
+  height:100%;
+  background-image:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
+  pointer-events:none;
+}
+/* 탑바 - 메뉴 박스 - 더보기 그림자 끝 */
+
+/* 탑바 - 메뉴 박스 - 아이템 시작 */
+.top-bar .menu-box-1 ul > li > a > span {
+  white-space:nowrap;
+}
+
+.top-bar .menu-box-1 ul > li:hover > a {
+  background-color:var(--top-bar__color-1);
+}
+/* 탑바 - 메뉴 박스 - 아이템 끝 */
+
+/* 탑바 - 메뉴 박스 - 2차 메뉴 시작 */
+
+.top-bar .menu-box-1 > ul > li:hover > div {
+  display:block;
+  z-index:10;
+}
+
+.top-bar .menu-box-1 > ul > li > div {
+  position:fixed;
+  left:0;
+  width:100%;
+  display:none;
+  background-color:white;
+  /* .shadow-lg */
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.top-bar .menu-box-1 > ul > li > div > h1 > a {
+  display:flex;
+  background-color:flex;
+  justify-content:center;
+  padding:.5rem 0;
+  background-color:var(--top-bar__color-1);
+}
+
+.top-bar .menu-box-1 > ul > li > div > ul > li > a {
+  display:flex;
+  background-color:flex;
+  justify-content:center;
+  padding:.5rem 0;
+}
+/* 탑바 - 메뉴 박스 - 2차 메뉴 끝 */
+
+.top-bar--fly {
+  top:0;
+  left:0;
+  width:100%;
+  z-index:50;
+  position:fixed;
+}
+/* 탑바 끝 */ 

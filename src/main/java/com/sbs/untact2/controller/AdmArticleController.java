@@ -18,6 +18,7 @@ import com.sbs.untact2.dto.Article;
 import com.sbs.untact2.dto.Board;
 import com.sbs.untact2.dto.GenFile;
 import com.sbs.untact2.dto.Member;
+import com.sbs.untact2.dto.Movie;
 import com.sbs.untact2.dto.ResultData;
 import com.sbs.untact2.service.ArticleService;
 import com.sbs.untact2.service.GenFileService;
@@ -60,32 +61,39 @@ public class AdmArticleController extends BaseController {
 	@RequestMapping("/adm/article/list")
 	public String showList(HttpServletRequest req, @RequestParam(defaultValue = "1") int boardId,
 			String searchKeywordType, String searchKeyword, @RequestParam(defaultValue = "1") int page) {
+
 		Board board = articleService.getBoard(boardId);
+
 		req.setAttribute("board", board);
+
 		if (board == null) {
 			return msgAndBack(req, "존재하지 않는 게시판 입니다.");
 		}
+
 		if (searchKeywordType != null) {
 			searchKeywordType = searchKeywordType.trim();
 		}
+
 		if (searchKeywordType == null || searchKeywordType.length() == 0) {
 			searchKeywordType = "titleAndBody";
 		}
+
 		if (searchKeyword != null && searchKeyword.length() == 0) {
 			searchKeyword = null;
 		}
+
 		if (searchKeyword != null) {
 			searchKeyword = searchKeyword.trim();
 		}
+
 		if (searchKeyword == null) {
 			searchKeywordType = null;
 		}
-		
+
 		int totalItemsCount = articleService.getArticlesTotalCount(boardId, searchKeywordType, searchKeyword);
 
 		int itemsInAPage = 20;
-
-		int totalPage = (int)Math.ceil(totalItemsCount / (double)itemsInAPage);
+		int totalPage = (int) Math.ceil(totalItemsCount / (double) itemsInAPage);
 		int pageMenuArmSize = 10;
 		int pageMenuStart = page - pageMenuArmSize;
 
@@ -100,6 +108,7 @@ public class AdmArticleController extends BaseController {
 
 		List<Article> articles = articleService.getForPrintArticles(boardId, searchKeywordType, searchKeyword, page,
 				itemsInAPage);
+
 		req.setAttribute("totalItemsCount", totalItemsCount);
 		req.setAttribute("articles", articles);
 		req.setAttribute("page", page);
@@ -139,15 +148,21 @@ public class AdmArticleController extends BaseController {
 
 	@RequestMapping("/adm/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(int id, HttpServletRequest req) {
+	public ResultData doDelete(Integer id, HttpServletRequest req) {
 		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		
+		if (id == null) {
+			return new ResultData("F-1", "id를 입력해주세요.");
+		}
 
 		Article article = articleService.getArticle(id);
+		
 		if (article == null) {
 			return new ResultData("F-1", "해당 게시물이 존재하지 않습니다.");
 		}
 
 		ResultData actorCanDeleteRd = articleService.getActorCanDeleteRd(article, loginedMember);
+		
 		if (actorCanDeleteRd.isFail()) {
 			return actorCanDeleteRd;
 		}
@@ -227,5 +242,4 @@ public class AdmArticleController extends BaseController {
 
 		return articleService.doAddReply(param);
 	}
-
 }

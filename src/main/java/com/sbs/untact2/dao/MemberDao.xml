@@ -86,22 +86,31 @@
 				updateDate = NOW(),
 			</if>
 			<if test="loginPw != null">
-				loginPw = #{loginPw}
+				loginPw = #{loginPw},
 			</if>
 			<if test="name != null">
-				name = #{name},
+				`name` = #{name},
 			</if>
 			<if test="nickname != null">
-				nickname = #{nickname}
+				nickname = #{nickname},
 			</if>
 			<if test="cellphoneNo != null">
 				cellphoneNo = #{cellphoneNo},
 			</if>
 			<if test="email != null">
-				email = #{email}
+				email = #{email},
 			</if>
-			WHERE id = #{id}
 		</set>
+		WHERE id = #{id}
 	</update>
+
+
+    <!-- 아이디 찾기 -->
+	<select id="getMemberByNameAndEmail" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE name = #{name}
+		AND email = #{email}
+	</select>
 
 </mapper>

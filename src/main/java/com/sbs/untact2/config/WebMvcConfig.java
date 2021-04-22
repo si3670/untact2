@@ -51,7 +51,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		// 어드민 필요
 		registry.addInterceptor(needAdmInterceptor).addPathPatterns("/adm/**").excludePathPatterns("/adm/member/join")
 				.excludePathPatterns("/adm/member/doJoin").excludePathPatterns("/adm/member/login")
-				.excludePathPatterns("/adm/member/doLogin").excludePathPatterns("/adm/member/getLoginIdDup");
+				.excludePathPatterns("/adm/member/doLogin").excludePathPatterns("/adm/member/getLoginIdDup")
+				.excludePathPatterns("/adm/member/findLoginInfo").excludePathPatterns("/adm/member/doFindLoginId");
 
 		// 로그인 필요
 		registry.addInterceptor(needLoginInterceptor).addPathPatterns("/**").excludePathPatterns("/")
@@ -60,9 +61,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/usr/member/login").excludePathPatterns("/usr/member/doLogin")
 				.excludePathPatterns("/usr/member/join").excludePathPatterns("/usr/member/doJoin")
 				.excludePathPatterns("/usr/article/list").excludePathPatterns("/usr/article/detail")
-				.excludePathPatterns("/usr/reply/list").excludePathPatterns("/usr/member/findLoginId")
+				.excludePathPatterns("/usr/reply/list")
+				.excludePathPatterns("/usr/member/findLoginId")
 				.excludePathPatterns("/usr/member/doFindLoginId").excludePathPatterns("/usr/member/findLoginPw")
-				.excludePathPatterns("/usr/member/doFindLoginPw").excludePathPatterns("/usr/file/test*")
+				.excludePathPatterns("/usr/member/doFindLoginPw").excludePathPatterns("/common/**").excludePathPatterns("/usr/file/test*")
 				.excludePathPatterns("/usr/file/doTest*").excludePathPatterns("/test/**").excludePathPatterns("/error");
 
 		// 로그인 상태에서 접속할 수 없는 URI 전부 기술

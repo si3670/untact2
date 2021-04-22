@@ -67,6 +67,16 @@
 		ORDER BY typeCode, type2Code, fileNo
 	</select>
 
+	<select id="getGenFilesByRelTypeCodeAndRelId"
+		resultType="GenFile">
+		SELECT *
+		FROM genFile
+		WHERE 1
+		AND relTypeCode = #{relTypeCode}
+		AND relId = #{relId}
+		ORDER BY typeCode, type2Code, fileNo
+	</select>
+
 	<update id="changeRelId">
 		UPDATE genFile
 		<set>
@@ -76,9 +86,28 @@
 		WHERE id = #{id}
 	</update>
 
+	<select id="getGenFileById" resultType="GenFile">
+		SELECT *
+		FROM genFile
+		WHERE 1
+		AND id = #{id}
+	</select>
 
-
-
+	<select id="getGenFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2Code" resultType="GenFile">
+		SELECT *
+		FROM genFile
+		WHERE 1
+		AND relId IN
+		<foreach item="relId" index="index" collection="relIds"
+			open="(" separator="," close=")">
+			#{relId}
+		</foreach>
+		AND relTypeCode = #{relTypeCode}
+		AND typeCode = #{typeCode}
+		AND
+		type2Code = #{type2Code}
+		ORDER BY relId, fileNo
+	</select>
 
 
 

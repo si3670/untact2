@@ -1,5 +1,6 @@
 package com.sbs.untact2.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbs.untact2.dto.GenFile;
 import com.sbs.untact2.dto.Member;
 import com.sbs.untact2.dto.ResultData;
+import com.sbs.untact2.service.GenFileService;
 import com.sbs.untact2.service.MemberService;
 import com.sbs.untact2.util.Util;
 
@@ -22,6 +25,9 @@ import com.sbs.untact2.util.Util;
 public class AdmMemberController extends BaseController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private GenFileService genFileService;
+	
 
 	@GetMapping("/adm/member/getLoginIdDup")
 	@ResponseBody
@@ -58,7 +64,7 @@ public class AdmMemberController extends BaseController {
 
 		return new ResultData("S-1", String.format("%s(은)는 사용가능한 로그인아이디 입니다.", loginId), "loginId", loginId);
 	}
-
+	
 	@RequestMapping("/adm/member/login")
 	public String showLogin() {
 		return "adm/member/login";
@@ -149,6 +155,17 @@ public class AdmMemberController extends BaseController {
 			return msgAndBack(req, "id를 입력해주세요.");
 		}
 		Member member = memberService.getForPrintMember(id);
+		
+		List<GenFile> files = genFileService.getGenFiles("member", member.getId(), "common", "attachment");
+
+		Map<String, GenFile> filesMap = new HashMap<>();
+
+		for (GenFile file : files) {
+			filesMap.put(file.getFileNo() + "", file);
+		}
+
+		member.getExtraNotNull().put("file__common__attachment", filesMap);
+		
 		req.setAttribute("member", member);
 
 		if (member == null) {
@@ -160,14 +177,13 @@ public class AdmMemberController extends BaseController {
 
 	@RequestMapping("/adm/member/doModify")
 	@ResponseBody
-	public ResultData doModify(@RequestParam Map<String, Object> param, HttpServletRequest req) {
-		if (param.isEmpty()) {
-			return new ResultData("F-2", "수정할 사항을 입력해주세요");
-		}
+	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		param.put("id", loginedMemberId);
 
-		Member loginedMember = (Member) req.getAttribute("loginedMember");
-		param.put("id", loginedMember);
-		return memberService.modifyMember(param);
+		ResultData modifyMemberRd = memberService.modifyMember(param);
+		String redirectUrl = "/adm/member/list";
+		return Util.msgAndReplace(modifyMemberRd.getMsg(), redirectUrl);
 	}
 
 	@RequestMapping("/adm/member/list")
@@ -203,4 +219,34 @@ public class AdmMemberController extends BaseController {
 
 		return "adm/member/list";
 	}
+	
+	//아이디, 비번 찾기
+	@RequestMapping("/adm/member/findLoginInfo")
+	public String showFindLoginInfo() {
+		return "adm/member/findLoginInfo";
+	}
+	
+	@RequestMapping("/adm/member/doFindLoginId")
+	public String doFindLoginId(String name, String email, HttpServletRequest req, String redirectUrl) {
+		Member member = memberService.getMemberByNameAndEmail(name, email);
+		
+		if(member == null) {
+			return msgAndBack(req, "존재하지 않는 회원입니다.");
+		}
+		
+		String msg = String.format("아이디는 %s 입니다.", member.getLoginId());
+
+		redirectUrl = Util.ifEmpty(redirectUrl, "../member/login");
+
+		return Util.msgAndReplace(msg, redirectUrl);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

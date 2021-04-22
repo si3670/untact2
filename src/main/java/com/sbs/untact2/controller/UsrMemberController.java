@@ -90,14 +90,14 @@ public class UsrMemberController {
 		return memberService.modifyMember(param);
 	}
 	
-	@GetMapping("/usr/member/authKey")
+	@PostMapping("/usr/member/authKey")
 	@ResponseBody
 	public ResultData showAuthKey(String loginId, String loginPw) {
 		
 		if(loginId == null) {
 			return new ResultData("F-1", "loginId을 입력해주세요.");
 		}
-		Member originMember = memberService.getMemberByLoginId(loginId);
+		Member originMember = memberService.getForPrintMemberByLoginId(loginId);
 		if(originMember == null) {
 			return new ResultData("F-2", "존재하지 않는 아이디입니다.");
 		}
@@ -109,22 +109,19 @@ public class UsrMemberController {
 			return new ResultData("F-3", "비밀번호를 확인해주세요");
 		}
 		
-		return new ResultData("P-1", String.format("%s님 환영", originMember.getName()), "authKey", originMember.getAuthKey(), "id", originMember.getId(), "name", originMember.getName(),"nickName", originMember.getNickname());
+		return new ResultData("S-1", String.format("%s님 환영합니다.", originMember.getNickname()), "authKey", originMember.getAuthKey(), "member", originMember);
+	
 	}
 	
 	@GetMapping("/usr/member/memberByAuthKey")
 	@ResponseBody
-	public ResultData showByAuthKey(String authKey) {
-		
-		if(authKey == null) {
+	public ResultData showMemberByAuthKey(String authKey) {
+		if (authKey == null) {
 			return new ResultData("F-1", "authKey를 입력해주세요.");
 		}
-		
-		Member originMember = memberService.getMemberByAuthKey(authKey);
-		if(originMember == null) {
-			return new ResultData("F-1", "유효하지 않는 authKey 입니다.");
-		}
-		
-		return new ResultData("P-1", String.format("유효한 회원입니다."), "member : ", originMember);
+
+		Member existingMember = memberService.getForPrintMemberByAuthKey(authKey);
+
+		return new ResultData("S-1", String.format("유요한 회원입니다."), "member", existingMember);
 	}
 }

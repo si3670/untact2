@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="com.sbs.untact2.util.Util"%>
 
@@ -65,7 +64,7 @@
 					</div>
 					<div class="flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center whitespace-nowrap">
 						조회:
-						<div class="ml-1 text-gray-400 font-thin text-ms">${article.hit}</div>
+						<div class="ml-1 text-gray-400 font-thin text-ms">60k</div>
 					</div>
 				</div>
 				<div class="mt-3 w-full flex justify-end">
@@ -118,4 +117,4 @@
 	</div>
 </section>
 
-<%@ include file="../part/mainLayoutFoot.jspf"%> 
+<%@ include file="../part/mainLayoutFoot.jspf"%>
