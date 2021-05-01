@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../part/head.jspf"%>
+<%@ include file="../part/mainLayoutHead.jspf"%>
 <script>
 	const LoginForm__checkAndSubmitDone = false;
 	function LoginForm__checkAndSubmit(form) {
@@ -31,51 +31,45 @@
 		class="container mx-auto min-h-screen flex items-center justify-center">
 		<div class="max-w-md mx-auto my-10">
 			<div class="logo-bar flex justify-center mt-3 mb-3">
-				<a href="#" class="logo">
-					<span>Cellar Admin</span>
-				</a>
+				<div class="logo-bar flex justify-center">
+					<h1 class="text-5xl">ADMIN LOGIN</h1>
+				</div>
 			</div>
 			<div class="m-7">
-				<form
-					class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
-					action="doLogin" method="post"
+				<form action="doLogin" method="post"
 					onsubmit="LoginForm__checkAndSubmit(this); return false;">
 					<input type="hidden" name="redirectUrl"
 						value="${param.redirectUrl}" />
 					<div class="mb-6">
-						<label class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Id</label>
-						<input
-							class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md "
-							autofocus="autofocus" type="text" placeholder="id를 입력해주세요."
-							name="loginId" maxlength="20" />
+						<input class="login-form w-full px-3 py-2" autofocus="autofocus"
+							type="text" placeholder="id" name="loginId" maxlength="20" />
+						<input class="login-form brt w-full px-3 py-2"
+							autofocus="autofocus" type="password" placeholder="password"
+							name="loginPw" maxlength="20" />
 					</div>
-					<div class="mb-6">
-							<label class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Password</label>
-							<input class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md "
-								autofocus="autofocus" type="password" placeholder="password를 입력해주세요."
-								name="loginPw" maxlength="20" />
-						</div>
+
+
 					<div class="mb-6">
 						<button
-							class="w-full px-2 py-1 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
-							type="sumit">login</button>
+							class="w-full px-2 py-1 text-white bg-red-400 focus:bg-red-600 focus:outline-none"
+							type="sumit">로그인</button>
 					</div>
-						<p class="text-sm text-center text-gray-400">
-						Don't have an account yet?	
-						<a href="/adm/member/join"
-							class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
+
+					<div class="flex">
+						<a href="../member/join"
+							class="text-gray-700 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
 							type="sumit">SignUp</a>
-					</p>
-					<p class="text-sm text-center text-gray-400">
-						Don't have an account yet?	
-						<a href="/adm/member/findLoginInfo"
-							class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
+						<div class="flex-grow"></div>
+
+						<a href="../member/findLoginInfo"
+							class="text-gray-700 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
 							type="sumit">find Id/Password</a>
-					</p>
+
+					</div>
 				</form>
 			</div>
 		</div>
 
 	</div>
 </section>
-<%@ include file="../part/foot.jspf"%>
+<%@ include file="../part/mainLayoutFoot.jspf"%>

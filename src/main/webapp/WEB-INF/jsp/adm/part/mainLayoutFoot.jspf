@@ -1,3 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "foot.jspf" %>
+
+<div class="bg-gray-100 w-full h-40">
+
+	<div class="p-10 text-sm text-gray-600">
+		<p class="inline-block">cellar</p>
+		<p class="inline-block">이세인</p>
+		<p>si367038@cellar.co.kr</p>
+		<p>github.com/si3670/reviewer</p>
+
+	</div>
+</div>

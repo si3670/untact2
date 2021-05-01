@@ -193,31 +193,3 @@ WHERE id = 1;
 SELECT * FROM board;
 
 
-# 영화게시물 테이블 생성
-CREATE TABLE movie (
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL,
-    boardId INT(10) UNSIGNED NOT NULL,
-    memberId INT(10) UNSIGNED NOT NULL,
-    title CHAR(100) NOT NULL,
-    `body` TEXT NOT NULL,
-    hit INT(10) UNSIGNED DEFAULT 0 NOT NULL
-);
-# 영화데이터 생성
-INSERT INTO movie
-SET regDate = NOW(),
-updateDate = NOW(),
-boardId = 10,
-memberId = 1,
-title = "영화1",
-`body` = "영화1";
-INSERT INTO movie
-SET regDate = NOW(),
-updateDate = NOW(),
-boardId = 10,
-memberId = 1,
-title = "영화2",
-`body` = "영화2";
-
-SELECT * FROM movie;

@@ -78,29 +78,11 @@ public class AdmMemberController extends BaseController {
 	@RequestMapping("/adm/member/doJoin")
 	@ResponseBody
 	public String doJoin(@RequestParam Map<String, Object> param) {
-		if (param.get("loginId") == null) {
-			return Util.msgAndBack("loginId을 입력해주세요.");
-		}
 		Member originMember = memberService.getMemberByLoginId((String) param.get("loginId"));
 		if (originMember != null) {
 			return Util.msgAndBack("이미 사용중인 아이디입니다.");
 		}
 
-		if (param.get("loginPw") == null) {
-			return Util.msgAndBack("loginPw을 입력해주세요.");
-		}
-		if (param.get("name") == null) {
-			return Util.msgAndBack("name을 입력해주세요.");
-		}
-		if (param.get("nickname") == null) {
-			return Util.msgAndBack("nickname을 입력해주세요.");
-		}
-		if (param.get("cellphoneNo") == null) {
-			return Util.msgAndBack("cellphoneNo을 입력해주세요.");
-		}
-		if (param.get("email") == null) {
-			return Util.msgAndBack("email을 입력해주세요.");
-		}
 		memberService.addMember(param);
 
 		String msg = String.format("%s님 환영합니다.", param.get("nickname"));
@@ -113,18 +95,11 @@ public class AdmMemberController extends BaseController {
 	@RequestMapping("/adm/member/doLogin")
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw, String redirectUrl, HttpSession session) {
-
-		if (loginId == null) {
-			return Util.msgAndBack("loginId을 입력해주세요.");
-		}
 		Member originMember = memberService.getMemberByLoginId(loginId);
 		if (originMember == null) {
 			return Util.msgAndBack("존재하지 않는 아이디입니다.");
 		}
 
-		if (loginPw == null) {
-			return Util.msgAndBack("loginPw을 입력해주세요.");
-		}
 		if (originMember.getLoginPw().equals(loginPw) == false) {
 			return Util.msgAndBack("비밀번호를 확인해주세요");
 		}

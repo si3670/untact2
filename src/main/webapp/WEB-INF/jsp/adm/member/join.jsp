@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ include file="../part/head.jspf"%>
+<%@ include file="../part/mainLayoutHead.jspf"%>
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
@@ -168,59 +168,38 @@
 		$('.inputLoginId').keyup(_.debounce(JoinForm__checkLoginIdDup, 1000));
 	});
 </script>
-<section class="section-login">
+<section class="section-login mt-10">
 	<div
 		class="container mx-auto min-h-screen flex items-center justify-center">
-		<div class="w-full">
+		<div>
 			<div class="logo-bar flex justify-center mt-3">
-				<a href="#" class="logo">
-					<span>cellar Admin</span>
-				</a>
+				<h1 class="text-5xl">ADMIN JOIN</h1>
 			</div>
-			<form
-				class="formLogin bg-white shadow-md rounded px-8 pt-6 pb-8 mt-4"
-				action="doJoin" method="POST"
+			<form class="formLogin px-8 pt-6 pb-8 mt-4" action="doJoin"
+				method="POST"
 				onsubmit="JoinForm__checkAndSubmit(this); return false;">
 				<input type="hidden" name="genFileIdsStr" />
 				<input type="hidden" name="redirectUrl" value="${param.redirectUrl}" />
 				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
-						<span>로그인아이디</span>
-					</div>
 					<div class="p-1 md:flex-grow">
-						<input
-							class="inputLoginId shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="text" placeholder="로그인 아이디를 입력해주세요."
+						<input class="inputLoginId login-form w-full px-3 py-2"
+							autofocus="autofocus" type="text" placeholder="아이디"
 							name="loginId" maxlength="20" />
-						<div class="loginIdInputMsg"></div>
+
+						<input class="login-form brt w-full px-3 py-2"
+							autofocus="autofocus" type="password" placeholder="비밀번호"
+							name="loginPw" maxlength="20" />
+
+						<input class="login-form brt w-full px-3 py-2"
+							autofocus="autofocus" type="password" placeholder="비밀번호확인"
+							name="loginPwConfirm" maxlength="20" />
 					</div>
 				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
-						<span>로그인비번</span>
-					</div>
-					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="password"
-							placeholder="로그인 비밀번호를 입력해주세요." name="loginPw" maxlength="20" />
-					</div>
-				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
-						<span>로그인비번 확인</span>
-					</div>
-					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="password"
-							placeholder="로그인 비밀번호를 입력해주세요." name="loginPwConfirm"
-							maxlength="20" />
-					</div>
-				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
-						<span>프로필이미지</span>
+
+				<div class="flex-col mb-4 md:flex-row">
+					<div class="p-1">
+						<span>프로필 사진</span>
+						<i aria-hidden="true" class="icon-required"></i>
 					</div>
 					<div class="p-1 md:flex-grow">
 						<input accept="image/gif, image/jpeg, image/png"
@@ -229,63 +208,57 @@
 							name="file__member__0__common__attachment__1" maxlength="20" />
 					</div>
 				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
+
+
+
+				<div class="flex-col mb-4 md:flex-row">
+					<div class="p-1">
 						<span>이름</span>
+						<i aria-hidden="true" class="icon-required"></i>
 					</div>
 					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="text" placeholder="이름을 입력해주세요."
-							name="name" maxlength="20" />
-					</div>
-				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
-						<span>별명</span>
-					</div>
-					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="text" placeholder="별명을 입력해주세요."
+						<input class="login-form w-full px-3 py-2" autofocus="autofocus"
+							type="text" placeholder="이름을(를) 입력하세요" name="name" maxlength="20" />
+						<input class="login-form brt w-full px-3 py-2"
+							autofocus="autofocus" type="text" placeholder="닉네임을(를) 입력하세요"
 							name="nickname" maxlength="20" />
 					</div>
 				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
+				
+				
+				<div class="mb-4">
+					<div class="p-1">
 						<span>이메일</span>
+						<i aria-hidden="true" class="icon-required"></i>
 					</div>
 					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="email" placeholder="별명을 입력해주세요."
-							name="email" maxlength="100" />
+						<input class="login-form w-full px-3 py-2" autofocus="autofocus"
+							type="email" placeholder="이메일" name="email" maxlength="100" />
 					</div>
 				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1 md:w-36 md:flex md:items-center">
-						<span>휴대전화번호</span>
+				
+				<div class="mb-4">
+					<div class="p-1">
+						<span>연락처</span>
+						<i aria-hidden="true" class="icon-required"></i>
 					</div>
 					<div class="p-1 md:flex-grow">
-						<input
-							class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-							autofocus="autofocus" type="tel"
-							placeholder="휴대전화번호를 입력해주세요.(- 없이 입력해주세요.)" name="cellphoneNo"
+						<input class="login-form w-full px-3 py-2" autofocus="autofocus"
+							type="tel" placeholder="연락처(- 없이 입력해주세요.)" name="cellphoneNo"
 							maxlength="11" />
 					</div>
 				</div>
-				<div class="flex flex-col mb-4 md:flex-row">
-					<div class="p-1">
-						<input
-							class="btn-primary bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
-							type="submit" value="회원가입" />
-						<a onclick="history.back();"
-							class="btn-info bg-green-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded inline-block">뒤로가기</a>
-					</div>
+				
+				
+				<div class="p-1">
+					<input
+						class="btn-primary bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 w-full"
+						type="submit" value="회원가입" />
 				</div>
+				
 			</form>
 		</div>
 	</div>
 </section>
 
-<%@ include file="../part/foot.jspf"%>
+<%@ include file="../part/mainLayoutFoot.jspf"%>

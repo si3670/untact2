@@ -30,6 +30,12 @@
 		url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff')
 		format('woff');
 }
+@font-face {
+    font-family: 'HSBombaram3_Thin';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.1/HSBombaram3_Thin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 html, html>body {
 	font-family: 'LotteMartDream', sans-serif;
@@ -69,18 +75,16 @@ textarea.form-row-input {
 
 /* 비주얼 시작 */ 
 .visual>.text {
-	top: 50%;
-	left: 100px;
-	transform: translatey(-50%);
-	color: white;
+	top: 60%;
+	left: 50%;
+	transform: translate(-60%,-50%);
+	color:white;
+	text-align: center;
 }
 
 .visual>.text>h1 {
-	font-size: 45px;
-}
-
-.visual>.text>p {
-	font-size: 14px;
+	font-family: 'HSBombaram3_Thin';
+	font-size: 47px;
 }
 /* 비주얼 끝 */ 
 
@@ -193,3 +197,27 @@ box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #
   position:fixed;
 }
 /* 탑바 끝 */ 
+
+/* 로그인 시작 */
+.login-form{
+	border: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;	
+}
+
+.login-form.brt {
+    margin-top: -1px;
+}
+/* 로그인 끝 */
+
+/* 회원가입 시작 */
+.icon-required{
+	display: inline-block;
+	width: 5px;
+	height: 5px;
+	background-color: #f25656;
+	border-radius: 50%;
+	vertical-align: 2px;
+}
+
+/* 회원가입 끝 */
+
